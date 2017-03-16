@@ -1,0 +1,46 @@
+﻿@using System.Web.Optimization;
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width" />
+		<meta charset="utf-8" />
+		<title>
+			@(ViewBag.Title == null ? "" : ViewBag.Title + " - ")Quiquemon MVC 5 App
+		</title>
+		@Styles.Render("~/Content/css")
+		@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
+	</head>
+	<body>
+		<div class="navbar navbar-inverse navbar-static-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="/" class="navbar-brand"><b>Quiquemon MVC 5 App</b></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="/">Inicio</a></li>
+						<li><a href="/Home/AboutUs">Acerca de Nosotros</a></li>
+						<li><a href="/Home/Contact">Contacto</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="/Account/Register"><b>Regístrate</b></a></li>
+						<li><a href="/Account/Login"><b>Iniciar Sesión</b></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			@RenderBody()
+			<hr>
+			<footer>
+				<p>&copy; @DateTime.Now.Year - Quiquemon MVC 5 App</p>
+				<p>Do whatever you want with this code :p</p>
+			</footer>
+		</div>
+	</body>
+</html>

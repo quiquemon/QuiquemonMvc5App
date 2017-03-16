@@ -1,0 +1,92 @@
+﻿@{ Layout = "~/Views/_AppLayout.cshtml"; }
+<div class="jumbotron">
+	<h1>Quiquemon MVC5 App</h1>
+	<p class="lead">Jugando con algunas características de ASP.NET MVC 5</p>
+</div>
+<div class="row">
+	<h1 class="text-success">
+		Algunos ejemplos al imprimir variables en las vistas:
+	</h1>
+	<div class="col-sm-3">
+		@{
+			var name = "Name";
+			var age = 23;
+			var boolean = false;
+		}
+		<h3>Impresión simple de variables</h3>
+		<p><b>Nombre:</b> @name</p>
+		<p><b>Edad:</b> @age</p>
+		<p><b>Booleano:</b> @boolean</p>
+	</div>
+	<div class="col-sm-3">
+		@{
+			var anonymous = new {
+				ObjectName = "My List áéíóú",
+				Numbers = new List<int> { 1, 2, 3, 4, 5 }
+			};
+			var numbers = anonymous
+				.Numbers
+				.Select(e => e.ToString())
+				.Aggregate((acc, next) => acc + ", " + next);
+		}
+		<h3>Impresión de un objeto anónimo</h3>
+		<p><b>Nombre del objeto:</b> @anonymous.ObjectName</p>
+		<p><b>Números:</b> @numbers</p>
+	</div>
+	<div class="col-sm-3">
+		<h3>Condicionales</h3>
+		@if (true) {
+			<p>Este texto entró porque la condicional fue <b>cierta</b>.</p>
+		}
+
+		@if (false) { } else {
+			<p>Este texto entró porque la condicional fue <b>falsa</b>.</p>
+		}
+	</div>
+	<div class="col-sm-3">
+		<h3>Expresiones</h3>
+		<p>3 + 3 = @(3 + 3)</p>
+		<p>"Hola" + " mundo!" = @("Hola" + " mundo!")</p>
+		<p class="@(true ? "text-info" : "text-danger")">
+			Este texto debe estar coloreado de azul.
+		</p>
+		<p class="@(false ? "text-info" : "text-danger")">
+			Este texto debería estar coloreado de rojo.
+		</p>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-3"></div>
+	<div class="col-sm-6">
+		<h3>CSRF</h3>
+		<p>
+			Este párrafo con tiene un elemento &lt;input type="hidden"&gt; con el token para evitar
+			ataques CSRF. El nombre del elemento es <code>__RequestVerificationToken</code> y podemos
+			obtenerlo por medio de dos formas: <i>estático</i>, con el método <code>@@AntiForgery.GetHtml()</code>,
+			y <i>dinámico</i>, por medio de JavaScript con el método
+			<code>document.getElementsByName("__RequestVerificationToken")[0].value</code>.
+			@AntiForgery.GetHtml()
+		</p>
+		<button id="btnShowToken" class="btn btn-primary">Mostrar Token CSRF</button>
+		<script>
+			$("#btnShowToken").click(function() {
+				var token = document.getElementsByName("__RequestVerificationToken")[0].value;
+
+				BootstrapDialog.show({
+					title: "CSRF Verification Token",
+					message: "<b>Token:</b> " + token,
+					type: BootstrapDialog.TYPE_INFO,
+					size: BootstrapDialog.SIZE_WIDE,
+					buttons: [{
+						label: "Cerrar",
+						cssClass: "btn-info",
+						action: function(dialog) {
+							dialog.close();
+						}
+					}]
+				});
+			});
+		</script>
+	</div>
+	<div class="col-sm-3"></div>
+</div>

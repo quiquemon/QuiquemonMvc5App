@@ -1,0 +1,49 @@
+﻿@{ Layout = "~/Views/_AppLayout.cshtml"; }
+<h1>@ViewBag.Title</h1>
+<h3>@(Html.Raw(ViewBag.Message))</h3>
+<p>Use this area to provide additional information.</p>
+<hr>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<b>Enlaces Dinámicos | Objetos en el ViewBag</b>
+			</div>
+			<div class="panel-body">
+				<p>
+					Enlaces creados con un <code>List&lt;Test&gt;</code> dentro del <code>@@ViewBag</code>.
+				</p>
+				<p>
+					El <code>@@ViewBag</code> puede utilizarse para almacenar toda clase de objetos desde
+					el controlador y pasárselos a las <b>vistas</b> para que puedan ser utilizados.
+				</p>
+				<p>
+					Por ejemplo, hemos almacenado una lista <code>List&lt;Test&gt;</code>, y mostraremos
+					cada uno de los objetos que contiene dicha lista:
+				</p>
+				<div class="row">
+					<div class="col-sm-6 col-xs-6">
+						<div class="list-group">
+							@foreach (var test in ViewBag.Tests) {
+								<a class="list-group-item">@test.Name</a>
+							}
+						</div>
+					</div>
+					<div class="col-sm-6 col-xs-6">
+						<div class="list-group">
+							@foreach (var test in ViewBag.Tests) {
+								if (test.Url == null) {
+									<a class="list-group-item list-group-item-danger">No Link :(</a>
+								} else {
+									<a href="@test.Url" target="_blank" class="list-group-item list-group-item-success">
+										@test.Url
+									</a>
+								}
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
