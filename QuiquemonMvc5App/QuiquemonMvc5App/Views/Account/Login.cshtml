@@ -1,0 +1,37 @@
+﻿@{ Layout = "~/Views/_AppLayout.cshtml"; }
+@model QuiquemonMvc5App.Models.ViewModels.Account.LoginViewModel
+
+<h1>@ViewBag.Title</h1>
+<h4>@ViewBag.Message</h4>
+<hr>
+<div class="row">
+	<div class="col-sm-3"></div>
+	<div class="col-sm-6" align="center">
+		<form>
+			@Html.AntiForgeryToken()
+			<div class="form-group">
+				<label>Correo electrónico:</label>
+				<div class="input-group">
+					<input type="email" name="email" class="form-control" autofocus />
+					<span class="input-group-addon">
+						<span class="glyphicon glyphicon-envelope"></span>
+					</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label>Contraseña:</label>
+				<div class="input-group">
+					<input type="password" name="password" class="form-control" />
+					<span class="input-group-addon">
+						<span class="glyphicon glyphicon-asterisk"></span>
+					</span>
+				</div>
+			</div>
+			<input type="submit" value="Iniciar Sesión" class="btn btn-primary" />
+			<a href="/" class="btn btn-danger">Cancelar</a>
+		</form>
+		<br>
+		<a href="/Account/Register">¿Aún no tienes una cuenta? Da clic aquí.</a>
+	</div>
+	<div class="col-sm-3"></div>
+</div>

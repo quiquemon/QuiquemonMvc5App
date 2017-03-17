@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace QuiquemonMvc5App.Controllers
 {
 	public class HomeController : Controller
 	{
-		// GET: Home
+		[HttpGet]
 		public ActionResult Index()
 		{
 			return View();
 		}
 
-		// GET: AboutUs
+		[HttpGet]
 		public ActionResult AboutUs()
 		{
 			ViewBag.Title = "Acerca de nosotros";
@@ -23,7 +20,7 @@ namespace QuiquemonMvc5App.Controllers
 			return View();
 		}
 
-		// GET: Contact
+		[HttpGet]
 		public ActionResult Contact()
 		{
 			ViewBag.Title = "Contáctanos";
