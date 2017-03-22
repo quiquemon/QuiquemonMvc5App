@@ -1,35 +1,44 @@
-﻿@{ Layout = "~/Views/_AppLayout.cshtml"; }
+﻿@{
+	Layout = "~/Views/_AppLayout.cshtml";
+	ViewBag.Title = "Inicia Sesión";
+}
 @model QuiquemonMvc5App.Models.ViewModels.Account.LoginViewModel
 
 <h1>@ViewBag.Title</h1>
-<h4>@ViewBag.Message</h4>
+<h4>Ingresa tus credenciales para acceder al sistema.</h4>
 <hr>
 <div class="row">
 	<div class="col-sm-3"></div>
 	<div class="col-sm-6" align="center">
-		<form>
+		@using (Html.BeginForm("Login", "Account", FormMethod.Post)) {
+			var validFlags = new {
+				email = Html.ValidationMessageFor(model => model.Email).ToHtmlString().Contains("field-validation-valid") ? "has-success" : "has-error",
+				password = Html.ValidationMessageFor(model => model.Password).ToHtmlString().Contains("field-validation-valid") ? "has-success" : "has-error"
+			};
 			@Html.AntiForgeryToken()
-			<div class="form-group">
-				<label>Correo electrónico:</label>
+			<div class="form-group @validFlags.email">
+				@Html.LabelFor(model => model.Email)
 				<div class="input-group">
-					<input type="email" name="email" class="form-control" autofocus />
+					@Html.TextBoxFor(model => model.Email, new { @class = "form-control", autofocus = "", maxlength = 72 })
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-envelope"></span>
 					</span>
 				</div>
+				@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
 			</div>
-			<div class="form-group">
-				<label>Contraseña:</label>
+			<div class="form-group @validFlags.password">
+				@Html.LabelFor(model => model.Password)
 				<div class="input-group">
-					<input type="password" name="password" class="form-control" />
+					@Html.PasswordFor(model => model.Password, new { @class = "form-control", maxlength = 72 })
 					<span class="input-group-addon">
-						<span class="glyphicon glyphicon-asterisk"></span>
+						<span class="glyphicon glyphicon-envelope"></span>
 					</span>
 				</div>
+				@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 			</div>
 			<input type="submit" value="Iniciar Sesión" class="btn btn-primary" />
 			<a href="/" class="btn btn-danger">Cancelar</a>
-		</form>
+		}
 		<br>
 		<a href="/Account/Register">¿Aún no tienes una cuenta? Da clic aquí.</a>
 	</div>

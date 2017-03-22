@@ -1,6 +1,4 @@
 ﻿using System;
-//using System.Collections.Generic;
-//using System.Linq;
 using System.ComponentModel.DataAnnotations;
 
 namespace QuiquemonMvc5App.Models.ViewModels.Account
@@ -8,30 +6,35 @@ namespace QuiquemonMvc5App.Models.ViewModels.Account
 	public class RegisterViewModel
 	{
 		[Required]
-		public string name { get; set; }
+		public string Name { get; set; }
 
 		[Required]
-		public string lastname { get; set; }
+		public string Lastname { get; set; }
 
 		[Required]
-		public DateTime birthday { get; set; }
+		public DateTime Birthday { get; set; }
 
 		[Required]
-		public string email { get; set; }
+		public string Email { get; set; }
 
 		[Required]
-		public string password { get; set; }
+		public string Password { get; set; }
 
 		[Required]
-		public bool newsletter { get; set; }
+		public bool Newsletter { get; set; }
 	}
 
 	public class LoginViewModel
 	{
-		[Required]
-		public string email { get; set; }
+		[Required(ErrorMessage = "El correo electrónico es obligatorio.")]
+		[MaxLength(70, ErrorMessage = "El correo electrónico tiene un máximo de 72 caracteres.")]
+		[EmailAddress(ErrorMessage = "Ingrese una dirección de correo válida.")]
+		[Display(Name = "Correo electrónico:")]
+		public string Email { get; set; }
 
-		[Required]
-		public string password { get; set; }
+		[Required(ErrorMessage = "La contraseña es obligatoria.")]
+		[StringLength(72, MinimumLength = 10, ErrorMessage = "La contraseña debe tener entre 10 y 72 caracteres.")]
+		[Display(Name = "Contraseña:")]
+		public string Password { get; set; }
 	}
 }
