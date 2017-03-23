@@ -11,15 +11,15 @@
 	<div class="col-sm-3"></div>
 	<div class="col-sm-6" align="center">
 		@using (Html.BeginForm("Login", "Account", FormMethod.Post)) {
+			@Html.AntiForgeryToken()
 			var validFlags = new {
 				email = Html.ValidationMessageFor(model => model.Email).ToHtmlString().Contains("field-validation-valid") ? "has-success" : "has-error",
 				password = Html.ValidationMessageFor(model => model.Password).ToHtmlString().Contains("field-validation-valid") ? "has-success" : "has-error"
 			};
-			@Html.AntiForgeryToken()
 			<div class="form-group @validFlags.email">
 				@Html.LabelFor(model => model.Email)
 				<div class="input-group">
-					@Html.TextBoxFor(model => model.Email, new { @class = "form-control", autofocus = "", maxlength = 72 })
+					@Html.TextBoxFor(model => model.Email, new { @class = "form-control", autofocus = "", maxlength = 70 })
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-envelope"></span>
 					</span>

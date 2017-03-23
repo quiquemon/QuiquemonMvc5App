@@ -27,7 +27,10 @@ namespace QuiquemonMvc5App.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Register(RegisterViewModel model)
 		{
-			return View();
+			if (!ModelState.IsValid)
+				return View(model);
+
+			return View(new RegisterViewModel());
 		}
 
 		[HttpPost]

@@ -6,36 +6,49 @@
 
 <h1>@ViewBag.Title</h1>
 <h4>Ingresa tus datos para registrarte en el sistema.</h4>
+<h4>@ViewBag.Newsletter</h4>
 <hr>
 <div class="row">
-	<form>
+	@using (Html.BeginForm("Register", "Account", FormMethod.Post)) {
+		@Html.AntiForgeryToken()
+		var validFlags = new {
+			name = Html.ValidationMessageFor(model => model.Name).ToHtmlString().Contains("field-validation-valid") ? "has-success" : "has-error",
+			lastname = Html.ValidationMessageFor(model => model.Lastname).ToHtmlString().Contains("field-validation-valid") ? "has-success" : "has-error",
+			birthday = Html.ValidationMessageFor(model => model.Birthday).ToHtmlString().Contains("field-validation-valid") ? "has-success" : "has-error",
+			email = Html.ValidationMessageFor(model => model.Email).ToHtmlString().Contains("field-validation-valid") ? "has-success" : "has-error",
+			password = Html.ValidationMessageFor(model => model.Password).ToHtmlString().Contains("field-validation-valid") ? "has-success" : "has-error",
+			newsletter = Html.ValidationMessageFor(model => model.Newsletter).ToHtmlString().Contains("field-validation-valid") ? "has-success" : "has-error"
+		};
 		<div class="col-sm-6">
-			<div class="form-group">
-				<label>Nombre:</label>
+			<div class="form-group @validFlags.name">
+				@Html.LabelFor(model => model.Name)
 				<div class="input-group">
-					<input type="text" name="name" class="form-control" autofocus />
+					@Html.TextBoxFor(model => model.Name, new { @class = "form-control", autofocus = "", maxlength = 100 })
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</span>
 				</div>
+				@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
 			</div>
-			<div class="form-group">
-				<label>Apellidos</label>
+			<div class="form-group @validFlags.lastname">
+				@Html.LabelFor(model => model.Lastname)
 				<div class="input-group">
-					<input type="text" name="lastname" class="form-control" />
+					@Html.TextBoxFor(model => model.Lastname, new { @class = "form-control", maxlength = 100 })
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</span>
 				</div>
+				@Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
 			</div>
-			<div class="form-group">
-				<label>Fecha de nacimiento:</label>
+			<div class="form-group @validFlags.birthday">
+				@Html.LabelFor(model => model.Birthday)
 				<div class="input-group date">
-					<input type="text" name="birthday" class="form-control" readonly />
+					@Html.TextBoxFor(model => model.Birthday, new { @class = "form-control", @readonly = "" })
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-calendar" style="cursor: pointer"></span>
 					</span>
 				</div>
+				@Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
 				<script>
 					$(".date").datetimepicker({
 						locale: "es",
@@ -48,30 +61,33 @@
 			</div>
 		</div>
 		<div class="col-sm-6">
-			<div class="form-group">
-				<label>Correo electrónico:</label>
+			<div class="form-group @validFlags.email">
+				@Html.LabelFor(model => model.Email)
 				<div class="input-group">
-					<input type="email" name="email" class="form-control" />
+					@Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-envelope"></span>
 					</span>
 				</div>
+				@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
 			</div>
-			<div class="form-group">
-				<label>Contraseña:</label>
+			<div class="form-group @validFlags.password">
+				@Html.LabelFor(model => model.Password)
 				<div class="input-group">
-					<input type="password" name="password" class="form-control" />
+					@Html.PasswordFor(model => model.Password, new { @class = "form-control" })
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-asterisk"></span>
 					</span>
 				</div>
+				@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 			</div>
-			<div class="form-group">
-				<label>¿Suscribirse al boletín?</label>
-				<select id="newsletter" class="form-control">
-					<option value="1">Sí</option>
-					<option value="2">No</option>
-				</select>
+			<div class="form-group @validFlags.newsletter">
+				@Html.LabelFor(model => model.Newsletter)
+				@Html.DropDownListFor(model => model.Newsletter, new List<SelectListItem> {
+					new SelectListItem { Text = "Sí", Value = "True" },
+					new SelectListItem { Text = "No", Value = "False" },
+				}, new { @class = "form-control", style = "cursor:pointer" })
+				@Html.ValidationMessageFor(model => model.Newsletter, "", new { @class = "text-danger" })
 			</div>
 			<br>
 			<input type="submit" value="Registrarme" class="btn btn-success" />
@@ -80,5 +96,5 @@
 			<br>
 			<a href="/Account/Login">¿Ya tienes una cuenta? Da clic aquí.</a>
 		</div>
-	</form>
+	}
 </div>
