@@ -16,6 +16,8 @@ namespace QuiquemonMvc5App.Models.ViewModels.Account
 		public string Lastname { get; set; }
 
 		[Required(ErrorMessage = "La fecha de nacimiento es obligatoria.")]
+		[DataType(DataType.Date)]
+		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
 		[MinimumAge(18, ErrorMessage = "Debes ser mayor de 18 años para registrarte.")]
 		[Display(Name = "Fecha de nacimiento:")]
 		public DateTime? Birthday { get; set; }

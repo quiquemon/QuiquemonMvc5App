@@ -1,10 +1,14 @@
 ﻿using System.Web.Mvc;
+using QuiquemonMvc5App.Models;
 using QuiquemonMvc5App.Models.ViewModels.Account;
+using QuiquemonMvc5App.Models.DAL;
 
 namespace QuiquemonMvc5App.Controllers
 {
 	public class AccountController : Controller
 	{
+		private MyDbContext db = new MyDbContext();
+
 		[HttpGet]
 		public ActionResult Index()
 		{
@@ -29,6 +33,7 @@ namespace QuiquemonMvc5App.Controllers
 		{
 			if (!ModelState.IsValid)
 				return View(model);
+
 
 			return View(new RegisterViewModel());
 		}

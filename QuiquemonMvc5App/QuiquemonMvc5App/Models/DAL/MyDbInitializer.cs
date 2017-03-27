@@ -32,13 +32,11 @@ namespace QuiquemonMvc5App.Models.DAL
 			context.Logos.AddRange(new List<Logo> {
 				new Logo {
 					ID = 1,
-					Name = "glyphicon glyphicon-user",
-					UserID = 1
+					Name = "glyphicon glyphicon-user"
 				},
 				new Logo {
 					ID = 2,
-					Name = "glyphicon glyphicon-picture",
-					UserID = 2
+					Name = "glyphicon glyphicon-picture"
 				}
 			});
 
@@ -48,28 +46,28 @@ namespace QuiquemonMvc5App.Models.DAL
 					Name = "Mi Primer Equipo",
 					Code = "abcdef",
 					CreationDate = DateTime.Now,
-					UserID = 1
+					OwnerID = 1
 				},
 				new Team {
 					ID = 2,
 					Name = "AEIOUÑ",
 					Code = "012345",
 					CreationDate = DateTime.Now,
-					UserID = 1
+					OwnerID = 1
 				},
 				new Team {
 					ID = 3,
 					Name = "áêìöýñ",
 					Code = "6789ab",
 					CreationDate = DateTime.Now,
-					UserID = 1
+					OwnerID = 1
 				},
 				new Team {
 					ID = 4,
 					Name = "Equipo Foráneo",
 					Code = "01cdef",
 					CreationDate = DateTime.Now,
-					UserID = 2
+					OwnerID = 2
 				}
 			});
 
@@ -87,7 +85,7 @@ namespace QuiquemonMvc5App.Models.DAL
 					Status = true,
 					Amount = 33.34M,
 					Completed = DateTime.Now,
-					TransactionID = "01",
+					Transaction = "01",
 					TeamID = 1
 				},
 				new Payment {
@@ -95,7 +93,7 @@ namespace QuiquemonMvc5App.Models.DAL
 					Status = true,
 					Amount = 50M,
 					Completed = DateTime.Now,
-					TransactionID = "02",
+					Transaction = "02",
 					TeamID = 2
 				},
 				new Payment {
@@ -103,7 +101,7 @@ namespace QuiquemonMvc5App.Models.DAL
 					Status = true,
 					Amount = 18.91M,
 					Completed = DateTime.Now,
-					TransactionID = "03",
+					Transaction = "03",
 					TeamID = 3
 				},
 				new Payment {
@@ -111,7 +109,7 @@ namespace QuiquemonMvc5App.Models.DAL
 					Status = true,
 					Amount = 98.73M,
 					Completed = DateTime.Now,
-					TransactionID = "04",
+					Transaction = "04",
 					TeamID = 4
 				}
 			});
