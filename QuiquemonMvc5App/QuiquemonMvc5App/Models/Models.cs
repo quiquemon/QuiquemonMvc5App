@@ -10,6 +10,9 @@ namespace QuiquemonMvc5App.Models
 		[ForeignKey("User")]
 		public int ID { get; set; }
 
+		[Required(ErrorMessage = "El nombre del logo es obligatorio.")]
+		[MaxLength(50, ErrorMessage = "El nombre del logo puede tener máximo 50 caracteres.")]
+		[Display(Name = "Nombre del logo:")]
 		public string Name { get; set; }
 
 		public virtual User User { get; set; }
@@ -19,18 +22,27 @@ namespace QuiquemonMvc5App.Models
 	{
 		public int ID { get; set; }
 
+		[Required]
+		[MaxLength(100)]
 		public string Name { get; set; }
 
+		[MaxLength(100)]
 		public string Lastname { get; set; }
 
+		[Required]
 		[DataType(DataType.Date)]
-		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
 		public DateTime Birthday { get; set; }
 
+		[Required]
+		[MaxLength(70)]
+		[Index(IsUnique = true)]
 		public string Email { get; set; }
 
+		[Required]
+		[MaxLength(255)]
 		public string Password { get; set; }
 
+		[Required]
 		public bool Newsletter { get; set; }
 
 		public virtual Logo Logo { get; set; }
@@ -53,10 +65,19 @@ namespace QuiquemonMvc5App.Models
 	{
 		public int ID { get; set; }
 
+		[Required]
+		[MaxLength(100)]
 		public string Name { get; set; }
 
+		[MaxLength(200)]
+		public string Description { get; set; }
+
+		[Required]
+		[DataType(DataType.Date)]
 		public DateTime CreationDate { get; set; }
 
+		[Required]
+		[MaxLength(80)]
 		public string Code { get; set; }
 
 		public int? OwnerID { get; set; }
@@ -71,12 +92,20 @@ namespace QuiquemonMvc5App.Models
 	{
 		public int ID { get; set; }
 
+		[Required]
 		public bool Status { get; set; }
 
+		[Required]
+		[MaxLength(45)]
 		public string Transaction { get; set; }
 
+		[Required]
+		[DataType(DataType.Currency)]
 		public decimal Amount { get; set; }
 
+		[Required]
+		[DataType(DataType.Date)]
+		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
 		public DateTime Completed { get; set; }
 
 		public int TeamID { get; set; }

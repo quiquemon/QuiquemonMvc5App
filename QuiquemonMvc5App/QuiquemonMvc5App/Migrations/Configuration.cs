@@ -1,18 +1,25 @@
-ï»¿using System;
-using System.Data.Entity;
-using System.Collections.Generic;
-
-namespace QuiquemonMvc5App.Models.DAL
+namespace QuiquemonMvc5App.Migrations
 {
-	public class MyDbInitializer : DropCreateDatabaseIfModelChanges<MyDbContext>
-	{
-		protected override void Seed(MyDbContext context)
-		{
+    using System;
+	using System.Collections.Generic;
+    using System.Data.Entity.Migrations;
+	using Models;
+	using Models.DAL;
+
+    internal sealed class Configuration : DbMigrationsConfiguration<MyDbContext>
+    {
+        public Configuration()
+        {
+            AutomaticMigrationsEnabled = false;
+        }
+
+        protected override void Seed(MyDbContext context)
+        {
 			context.Users.AddRange(new List<User> {
 				new User {
 					ID = 1,
 					Name = "Enrique",
-					Lastname = "HernÃ¡ndez",
+					Lastname = "Hernández",
 					Birthday = new DateTime(1994, 1, 28),
 					Email = "lenrique@numeri.mx",
 					//Password = "$2a$14$aM3nSxxAvvxVxmL7orrbN.Qf0za3/eWMOq3ifjZEvT0wFLo344XXK",
@@ -46,14 +53,14 @@ namespace QuiquemonMvc5App.Models.DAL
 				new Team {
 					ID = 1,
 					Name = "Mi Primer Equipo",
-					Description = "El primer equipo creado de esta aplicaciÃ³n.",
+					Description = "El primer equipo creado de esta aplicación.",
 					Code = "abcdef",
 					CreationDate = DateTime.Now,
 					OwnerID = 1
 				},
 				new Team {
 					ID = 2,
-					Name = "AEIOUÃ‘",
+					Name = "AEIOUÑ",
 					Description = "",
 					Code = "012345",
 					CreationDate = DateTime.Now,
@@ -61,7 +68,7 @@ namespace QuiquemonMvc5App.Models.DAL
 				},
 				new Team {
 					ID = 3,
-					Name = "Ã¡ÃªÃ¬Ã¶Ã½Ã±",
+					Name = "áêìöýñ",
 					Description = "Caracteres de Unicode.",
 					Code = "6789ab",
 					CreationDate = DateTime.Now,
@@ -69,8 +76,8 @@ namespace QuiquemonMvc5App.Models.DAL
 				},
 				new Team {
 					ID = 4,
-					Name = "Equipo ForÃ¡neo",
-					Description = "Equipo forÃ¡neo :p",
+					Name = "Equipo Foráneo",
+					Description = "Equipo foráneo :p",
 					Code = "01cdef",
 					CreationDate = DateTime.Now,
 					OwnerID = 2
@@ -122,5 +129,5 @@ namespace QuiquemonMvc5App.Models.DAL
 
 			context.SaveChanges();
 		}
-	}
+    }
 }
