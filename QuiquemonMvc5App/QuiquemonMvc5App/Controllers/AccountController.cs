@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using System.Data.Entity;
 using QuiquemonMvc5App.Models;
 using QuiquemonMvc5App.Models.ViewModels.Account;
 using QuiquemonMvc5App.Models.DAL;
@@ -15,22 +14,33 @@ namespace QuiquemonMvc5App.Controllers
 		[HttpGet]
 		public ActionResult Index()
 		{
+			ViewBag.User = Session["User"] as User;
 			return View();
 		}
 
 		[HttpGet]
+		public ActionResult Logout()
+		{
+			Session.Clear();
+			return RedirectToAction("Index", "Home");
+		}
+
+		[HttpGet]
+		[AllowAnonymous]
 		public ActionResult Register()
 		{
 			return View(new RegisterViewModel());
 		}
 
 		[HttpGet]
+		[AllowAnonymous]
 		public ActionResult Login()
 		{
 			return View(new LoginViewModel());
 		}
 
 		[HttpPost]
+		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
 		public ActionResult Register(RegisterViewModel model)
 		{
@@ -48,8 +58,8 @@ namespace QuiquemonMvc5App.Controllers
 
 					db.Users.Add(user);
 					db.SaveChanges();
-					//Session["User"] = user;
-					return RedirectToAction("Register");
+					Session["User"] = user;
+					return RedirectToAction("Index");
 				} else {
 					ModelState.AddModelError("Email", "Ese correo electrónico ya fue utilizado. Por favor, elija otro.");
 				}
@@ -59,15 +69,24 @@ namespace QuiquemonMvc5App.Controllers
 		}
 
 		[HttpPost]
+		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
 		public ActionResult Login(LoginViewModel model)
 		{
-			if (!ModelState.IsValid) {
-				return View(model);
+			if (ModelState.IsValid) {
+				if (db.Users.Any(u => u.Email == model.Email)) {
+					var user = db.Users.Where(u => u.Email == model.Email).Single();
+
+					if (user.Password == model.Password) {
+						Session["User"] = user;
+						return RedirectToAction("Index");
+					}
+				}
+
+				ModelState.AddModelError("Password", "El correo electrónico o la contraseña son erróneos.");
 			}
 
-			// Generate a new Session.
-			return View(new LoginViewModel());
+			return View(model);
 		}
 	}
 }

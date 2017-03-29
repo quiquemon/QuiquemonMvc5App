@@ -48,6 +48,9 @@ namespace QuiquemonMvc5App.Models
 		public virtual Logo Logo { get; set; }
 		public virtual ICollection<UserTeam> UserTeams { get; set; }
 		public virtual ICollection<Team> Teams { get; set; }
+
+		// Utility methods
+		public string GetFullName() { return Name + " " + Lastname; }
 	}
 
 	public class UserTeam

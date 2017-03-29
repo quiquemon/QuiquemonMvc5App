@@ -2,6 +2,7 @@
 
 namespace QuiquemonMvc5App.Controllers
 {
+	[AllowAnonymous]
 	public class GeneralController : Controller
 	{
 		[HttpGet]

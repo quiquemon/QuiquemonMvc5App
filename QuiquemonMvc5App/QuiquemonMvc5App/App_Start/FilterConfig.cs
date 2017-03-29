@@ -1,5 +1,6 @@
-﻿using System.Web.Routing;
+﻿using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace QuiquemonMvc5App
 {
@@ -9,6 +10,7 @@ namespace QuiquemonMvc5App
 		{
 			filters.Add(new HandleErrorAttribute());
 			filters.Add(new AntiForgeryTokenFilter());
+			filters.Add(new AuthorizeLoggedInUserAttribute());
 		}
 	}
 
@@ -23,6 +25,22 @@ namespace QuiquemonMvc5App
 					{ "Action", "Forbidden" }
 				});
 			}
+		}
+	}
+
+	class AuthorizeLoggedInUserAttribute : AuthorizeAttribute
+	{
+		protected override void HandleUnauthorizedRequest(AuthorizationContext context)
+		{
+			context.Result = new RedirectToRouteResult(new RouteValueDictionary {
+				{ "Controller", "General" },
+				{ "Action", "Forbidden" }
+			});
+		}
+
+		protected override bool AuthorizeCore(HttpContextBase context)
+		{
+			return context.Session["User"] != null;
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Web.Mvc;
 
 namespace QuiquemonMvc5App.Controllers
 {
+	[AllowAnonymous]
 	public class HomeController : Controller
 	{
 		[HttpGet]

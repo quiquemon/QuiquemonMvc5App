@@ -1,0 +1,43 @@
+﻿@{ ViewBag.Title = "Dashboard"; }
+
+<div class="container">
+	<div class="jumbotron">
+		<h1>¡Bienvenido, <b>@ViewBag.User.GetFullName()</b> a tu página principal!</h1>
+		<br>
+		<p>Aquí podrás editar tu información personal, crear o unirte a
+		un nuevo equipo y realizar los pagos de tu equipo.</p>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-xs-6">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<b>Crea un nuevo equipo</b>
+				</div>
+				<div class="panel-body">
+					<p class="text-justify">
+						Puedes correr junto a tus amigos
+						en equipos. ¡Crea el tuyo ahora!
+					</p>
+					<a href="/Account/Team" class="btn btn-info">Crear Nuevo Equipo</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 col-xs-6">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<b>Edita tu información personal</b>
+				</div>
+				<div class="panel-body">
+					<p class="text-justify">
+						Aquí puedes actualizar tu información personal,
+						así como crear una nueva contraseña o seleccionar
+						un nuevo logo.
+					</p>
+					<a href="/Account/Profile" class="btn btn-success" style="white-space:normal">
+						Editar Información Personal
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

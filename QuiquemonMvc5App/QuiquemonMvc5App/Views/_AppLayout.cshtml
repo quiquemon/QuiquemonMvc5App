@@ -22,23 +22,43 @@
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="/">Inicio</a></li>
-						<li><a href="/Home/AboutUs">Acerca de Nosotros</a></li>
-						<li><a href="/Home/Contact">Contacto</a></li>
+						@if (Session["User"] == null) {
+							<li><a href="/">Inicio</a></li>
+							<li><a href="/Home/AboutUs">Acerca de Nosotros</a></li>
+							<li><a href="/Home/Contact">Contacto</a></li>
+						} else {
+							<li><a href="/Account">Mi Dashboard</a></li>
+							<li><a href="/Team">Administrar Equipos</a></li>
+						}
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li>
-							<a href="/Account/Register">
-								<span class="glyphicon glyphicon-user"></span>
-								Regístrate
-							</a>
-						</li>
-						<li>
-							<a href="/Account/Login">
-								<span class="glyphicon glyphicon-log-in"></span>
-								Iniciar Sesión
-							</a>
-						</li>
+						@if (Session["User"] == null) {
+							<li>
+								<a href="/Account/Register">
+									<span class="glyphicon glyphicon-user"></span>
+									Regístrate
+								</a>
+							</li>
+							<li>
+								<a href="/Account/Login">
+									<span class="glyphicon glyphicon-log-in"></span>
+									Iniciar Sesión
+								</a>
+							</li>
+						} else {
+							<li>
+								<a href="/Account/Profile">
+									<span class="glyphicon glyphicon-user"></span>
+									Mi Perfil
+								</a>
+							</li>
+							<li>
+								<a href="/Account/Logout">
+									<span class="glyphicon glyphicon-road"></span>
+									Cerrar Sesión
+								</a>
+							</li>
+						}
 					</ul>
 				</div>
 			</div>
