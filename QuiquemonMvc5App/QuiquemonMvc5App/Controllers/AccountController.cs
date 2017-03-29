@@ -51,7 +51,7 @@ namespace QuiquemonMvc5App.Controllers
 						Lastname = model.Lastname,
 						Birthday = (DateTime)model.Birthday,
 						Email = model.Email,
-						Password = model.Password,
+						Password = BCrypt.Net.BCrypt.HashPassword(model.Password, 14),
 						Newsletter = Convert.ToBoolean(model.Newsletter),
 						Logo = new Logo { Name = "glyphicon glyphicon-user" }
 					};
@@ -77,7 +77,7 @@ namespace QuiquemonMvc5App.Controllers
 				if (db.Users.Any(u => u.Email == model.Email)) {
 					var user = db.Users.Where(u => u.Email == model.Email).Single();
 
-					if (user.Password == model.Password) {
+					if (BCrypt.Net.BCrypt.Verify(model.Password, user.Password)) {
 						Session["User"] = user;
 						return RedirectToAction("Index");
 					}

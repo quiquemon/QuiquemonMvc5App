@@ -15,6 +15,7 @@ namespace QuiquemonMvc5App.Migrations
 
         protected override void Seed(MyDbContext context)
         {
+			// Password = 1111111111
 			context.Users.AddRange(new List<User> {
 				new User {
 					ID = 1,
@@ -22,8 +23,7 @@ namespace QuiquemonMvc5App.Migrations
 					Lastname = "Hernández",
 					Birthday = new DateTime(1994, 1, 28),
 					Email = "lenrique@numeri.mx",
-					//Password = "$2a$14$aM3nSxxAvvxVxmL7orrbN.Qf0za3/eWMOq3ifjZEvT0wFLo344XXK",
-					Password = "1234567890",
+					Password = "$2a$14$o1wV2nPLQA/vj559gtf3dO1IXksTxuze7gDH8DKuDxgckm2CMRE3e",
 					Newsletter = false
 				},
 				new User {
@@ -32,8 +32,7 @@ namespace QuiquemonMvc5App.Migrations
 					Lastname = "Fake",
 					Birthday = new DateTime(1990, 12, 1),
 					Email = "marcianito@numeri.mx",
-					//Password = "$2a$14$aM3nSxxAvvxVxmL7orrbN.Qf0za3/eWMOq3ifjZEvT0wFLo344XXK",
-					Password = "1234567890",
+					Password = "$2a$14$o1wV2nPLQA/vj559gtf3dO1IXksTxuze7gDH8DKuDxgckm2CMRE3e",
 					Newsletter = true
 				}
 			});
@@ -41,7 +40,7 @@ namespace QuiquemonMvc5App.Migrations
 			context.Logos.AddRange(new List<Logo> {
 				new Logo {
 					ID = 1,
-					Name = "glyphicon glyphicon-user"
+					Name = "glyphicon glyphicon-cloud"
 				},
 				new Logo {
 					ID = 2,
