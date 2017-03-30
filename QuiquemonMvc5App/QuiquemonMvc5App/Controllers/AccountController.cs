@@ -39,6 +39,22 @@ namespace QuiquemonMvc5App.Controllers
 			return View(new LoginViewModel());
 		}
 
+		[HttpGet]
+		public new ActionResult Profile()
+		{
+			var user = Session["User"] as User;
+			ViewBag.User = user;
+			return View(new UpdateInfoViewModel {
+				Name       = user.Name,
+				Lastname   = user.Lastname,
+				Birthday   = user.Birthday,
+				Email      = user.Email,
+				Newsletter = user.Newsletter.ToString(),
+				Logo       = user.Logo.Name,
+				LogoID     = user.Logo.ID
+			});
+		}
+
 		[HttpPost]
 		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
@@ -47,13 +63,13 @@ namespace QuiquemonMvc5App.Controllers
 			if (ModelState.IsValid) {
 				if (!db.Users.Any(u => u.Email == model.Email)) {
 					var user = new User {
-						Name = model.Name,
-						Lastname = model.Lastname,
-						Birthday = (DateTime)model.Birthday,
-						Email = model.Email,
-						Password = BCrypt.Net.BCrypt.HashPassword(model.Password, 14),
+						Name       = model.Name,
+						Lastname   = model.Lastname,
+						Birthday   = (DateTime)model.Birthday,
+						Email      = model.Email,
+						Password   = BCrypt.Net.BCrypt.HashPassword(model.Password, 14),
 						Newsletter = Convert.ToBoolean(model.Newsletter),
-						Logo = new Logo { Name = "glyphicon glyphicon-user" }
+						Logo       = new Logo { Name = "glyphicon glyphicon-user" }
 					};
 
 					db.Users.Add(user);
@@ -87,6 +103,15 @@ namespace QuiquemonMvc5App.Controllers
 			}
 
 			return View(model);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public JsonResult EditLogo([Bind(Include = "Name,ID")] Logo logo) {
+			return Json(new {
+				success = true,
+				logo = logo
+			});
 		}
 	}
 }

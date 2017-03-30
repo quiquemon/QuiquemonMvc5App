@@ -20,10 +20,19 @@ namespace QuiquemonMvc5App
 		{
 			if (context.Exception.GetType() == typeof(HttpAntiForgeryException)) {
 				context.ExceptionHandled = true;
-				context.Result = new RedirectToRouteResult(new RouteValueDictionary {
-					{ "Controller", "General" },
-					{ "Action", "Forbidden" }
-				});
+
+				if (context.HttpContext.Request.IsAjaxRequest()) {
+					context.Result = new JsonResult {
+						Data = new ErrorMessage {
+							message = "<b>Acceso Denegado:</b> Usted no tiene permiso para acceder a este recurso."
+						}
+					};
+				} else {
+					context.Result = new RedirectToRouteResult(new RouteValueDictionary {
+						{ "Controller", "General" },
+						{ "Action", "Forbidden" }
+					});
+				}
 			}
 		}
 	}
@@ -32,15 +41,29 @@ namespace QuiquemonMvc5App
 	{
 		protected override void HandleUnauthorizedRequest(AuthorizationContext context)
 		{
-			context.Result = new RedirectToRouteResult(new RouteValueDictionary {
-				{ "Controller", "General" },
-				{ "Action", "Forbidden" }
-			});
+			if (context.HttpContext.Request.IsAjaxRequest()) {
+				context.Result = new JsonResult {
+					Data = new ErrorMessage {
+						message = "<b>Acceso Denegado:</b> Usted no tiene permiso para acceder a este recurso."
+					}
+				};
+			} else {
+				context.Result = new RedirectToRouteResult(new RouteValueDictionary {
+					{ "Controller", "General" },
+					{ "Action", "Forbidden" }
+				});
+			}
 		}
 
 		protected override bool AuthorizeCore(HttpContextBase context)
 		{
 			return context.Session["User"] != null;
 		}
+	}
+
+	class ErrorMessage
+	{
+		public readonly bool success = false;
+		public string message { get; set; }
 	}
 }

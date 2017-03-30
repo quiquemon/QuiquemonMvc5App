@@ -82,7 +82,7 @@
 				@Html.DropDownListFor(model => model.Newsletter, new List<SelectListItem> {
 					new SelectListItem { Text = "Sí", Value = "True" },
 					new SelectListItem { Text = "No", Value = "False" },
-				}, new { @class = "form-control", style = "cursor:pointer" })
+				}, new { @class = "form-control" })
 				@Html.ValidationMessageFor(model => model.Newsletter, "", new { @class = "text-danger" })
 			</div>
 			<br>

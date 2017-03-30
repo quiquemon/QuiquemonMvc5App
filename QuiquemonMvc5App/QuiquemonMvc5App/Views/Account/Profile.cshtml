@@ -1,0 +1,93 @@
+﻿@{ ViewBag.Title = "Mi Perfil"; }
+@model QuiquemonMvc5App.Models.ViewModels.Account.UpdateInfoViewModel
+
+<h1>@ViewBag.Title</h1>
+<h4>Puedes actualizar tu información personal aquí.</h4>
+<a href="/Account" class="btn btn-warning">
+	<span class="glyphicon glyphicon-arrow-left"></span>
+	Regresar al dashboard
+</a>
+<hr>
+<div class="row">
+	@Html.AntiForgeryToken()
+	<div class="col-sm-3"></div>
+	<div class="col-sm-6" align="center">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<b>Tu Logo</b>
+			</div>
+			<div class="panel-body">
+				<div id="logoBody" class="row">
+					<div class="col-sm-6 col-xs-6 text-center">
+						<span id="logoPreview" class="@ViewBag.User.Logo.Name" style="font-size:10rem; margin-top:10px"></span>
+					</div>
+					<div class="col-sm-6 col-xs-6">
+						<div class="form-group">
+							@Html.LabelFor(model => model.Logo)
+							@Html.DropDownListFor(model => model.Logo, Model.Logos, new { @class = "form-control" })
+						</div>
+						<button id="btnChangeLogo" class="btn btn-info btn-block">Cambiar Logo</button>
+						<script>
+							$("#Logo").change(function() {
+								document.getElementById("logoPreview").className = $(this).val();
+							});
+						</script>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-3"></div>
+</div>
+<div class="row">
+	<div class="col-sm-3"></div>
+	<div class="col-sm-6" align="center">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<b>Tu Información Personal</b>
+			</div>
+			<div class="panel-body">
+				
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-3"></div>
+</div>
+<div class="row">
+	<div class="col-sm-3"></div>
+	<div class="col-sm-6" align="center">
+		<div class="panel panel-danger">
+			<div class="panel-heading">
+				<b>Tu Contraseña</b>
+			</div>
+			<div class="panel-body">
+
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-3"></div>
+</div>
+<script>
+	$("#btnChangeLogo").click(function() {
+		$("#logoBody .alert").remove();
+		var token = document.getElementsByName("__RequestVerificationToken")[0].value;
+
+		$.post("/Account/EditLogo", {
+			Name: $("#Logo").val(),
+			ID: @Model.LogoID,
+			__RequestVerificationToken: token
+		}, function(response) {
+			if (response.success) {
+				var html = "<div class='alert alert-info alert-dismissable fade in'>"
+					+ "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"
+					+ "Mensaje desde el servidor:<br>" + JSON.stringify(response, null, 4);
+			} else {
+				var html = "<div class='alert alert-danger alert-dismissable fade in'>"
+					+ "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"
+					+ "Ocurrió un error al procesar la solicitud:<br> " + response.message;
+			}
+
+			$("#logoBody").prepend(html);
+		});
+	});
+</script>
