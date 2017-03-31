@@ -16,6 +16,9 @@ namespace QuiquemonMvc5App
 				"~/Scripts/bootstrap-dialog.js",
 				"~/Scripts/bootstrap-datetimepicker.min.js"
 			));
+			bundles.Add(new ScriptBundle("~/bundles/app").Include(
+				"~/Scripts/app.js"
+			));
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 				"~/Content/bootstrap.min.css",
 				"~/Content/bootstrap-theme.min.css",

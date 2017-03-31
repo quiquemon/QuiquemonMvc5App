@@ -61,12 +61,8 @@ namespace QuiquemonMvc5App.Models.ViewModels.Account
 
 	public class UpdateInfoViewModel : BasePersonalInfo
 	{
-		[Required(ErrorMessage = "El nombre del logo es obligatorio.")]
-		[MaxLength(50, ErrorMessage = "El nombre del logo puede tener máximo 50 caracteres.")]
 		[Display(Name = "Seleccione un logo:")]
 		public string Logo { get; set; }
-
-		public int LogoID { get; set; }
 
 		public IEnumerable<SelectListItem> Logos {
 			get {

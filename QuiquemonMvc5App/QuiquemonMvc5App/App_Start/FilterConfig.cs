@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using QuiquemonMvc5App.Controllers;
 
 namespace QuiquemonMvc5App
 {
@@ -23,9 +24,7 @@ namespace QuiquemonMvc5App
 
 				if (context.HttpContext.Request.IsAjaxRequest()) {
 					context.Result = new JsonResult {
-						Data = new ErrorMessage {
-							message = "<b>Acceso Denegado:</b> Usted no tiene permiso para acceder a este recurso."
-						}
+						Data = new ErrorMessage("<b>Acceso Denegado:</b> Usted no tiene permiso para acceder a este recurso.")
 					};
 				} else {
 					context.Result = new RedirectToRouteResult(new RouteValueDictionary {
@@ -43,9 +42,7 @@ namespace QuiquemonMvc5App
 		{
 			if (context.HttpContext.Request.IsAjaxRequest()) {
 				context.Result = new JsonResult {
-					Data = new ErrorMessage {
-						message = "<b>Acceso Denegado:</b> Usted no tiene permiso para acceder a este recurso."
-					}
+					Data = new ErrorMessage("<b>Acceso Denegado:</b> Usted no tiene permiso para acceder a este recurso.")
 				};
 			} else {
 				context.Result = new RedirectToRouteResult(new RouteValueDictionary {
@@ -59,11 +56,5 @@ namespace QuiquemonMvc5App
 		{
 			return context.Session["User"] != null;
 		}
-	}
-
-	class ErrorMessage
-	{
-		public readonly bool success = false;
-		public string message { get; set; }
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Data.Entity;
 using QuiquemonMvc5App.Models;
 using QuiquemonMvc5App.Models.ViewModels.Account;
 using QuiquemonMvc5App.Models.DAL;
@@ -50,8 +51,7 @@ namespace QuiquemonMvc5App.Controllers
 				Birthday   = user.Birthday,
 				Email      = user.Email,
 				Newsletter = user.Newsletter.ToString(),
-				Logo       = user.Logo.Name,
-				LogoID     = user.Logo.ID
+				Logo       = user.Logo.Name
 			});
 		}
 
@@ -107,11 +107,21 @@ namespace QuiquemonMvc5App.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public JsonResult EditLogo([Bind(Include = "Name,ID")] Logo logo) {
-			return Json(new {
-				success = true,
-				logo = logo
-			});
+		public JsonResult EditLogo(string name) {
+			if (string.IsNullOrWhiteSpace(name)) {
+				return Json(new ErrorMessage("Elija un logo válido."));
+			} else if (name.Length > 50) {
+				return Json(new ErrorMessage("El nombre del logo no puede tener más de 50 caracteres."));
+			}
+
+			var user = Session["User"] as User;
+			var logo = db.Logos.Find(user.Logo.ID);
+			logo.Name = name;
+			db.Entry(logo).State = EntityState.Modified;
+			db.SaveChanges();
+			Session["User"] = db.Users.Find(user.ID);
+
+			return Json(new SuccessMessageWithValue<string>("Su logo se ha actualizado con éxito.", logo.Name));
 		}
 	}
 }

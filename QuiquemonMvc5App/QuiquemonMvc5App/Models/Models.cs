@@ -10,9 +10,8 @@ namespace QuiquemonMvc5App.Models
 		[ForeignKey("User")]
 		public int ID { get; set; }
 
-		[Required(ErrorMessage = "El nombre del logo es obligatorio.")]
-		[MaxLength(50, ErrorMessage = "El nombre del logo puede tener máximo 50 caracteres.")]
-		[Display(Name = "Nombre del logo:")]
+		[Required]
+		[MaxLength(50)]
 		public string Name { get; set; }
 
 		public virtual User User { get; set; }
