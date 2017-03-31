@@ -1,8 +1,8 @@
 ﻿@{ ViewBag.Title = "Mi Perfil"; }
-@model QuiquemonMvc5App.Models.ViewModels.Account.UpdateInfoViewModel
+@model QuiquemonMvc5App.Models.ViewModels.Account.ProfileViewModel
 
 <h1>@ViewBag.Title</h1>
-<h4>Puedes actualizar tu información personal aquí.</h4>
+<p>Puedes actualizar tu información personal aquí.</p>
 <a href="/Account" class="btn btn-warning">
 	<span class="glyphicon glyphicon-arrow-left"></span>
 	Regresar al dashboard
@@ -42,7 +42,51 @@
 				<b>Tu Información Personal</b>
 			</div>
 			<div class="panel-body">
-				
+				<div class="form-group">
+					@Html.LabelFor(model => model.Name)
+					<div class="input-group">
+						@Html.TextBoxFor(model => model.Name, new { @class = "form-control", value = Model.Name })
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-pencil"></span>
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.Lastname)
+					<div class="input-group">
+						@Html.TextBoxFor(model => model.Lastname, new { @class = "form-control", value = Model.Lastname })
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-pencil"></span>
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.Birthday)
+					<div class="input-group date">
+						@Html.TextBoxFor(model => model.Birthday, new { @class = "form-control", @readonly = ""})
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar" style="cursor: pointer"></span>
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.Email)
+					<div class="input-group">
+						@Html.TextBoxFor(model => model.Email, new { @class = "form-control", value = Model.Email })
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-envelope"></span>
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.Newsletter)
+					@Html.DropDownListFor(model => model.Newsletter, new List<SelectListItem> {
+					new SelectListItem { Text = "Sí", Value = "True", Selected = (Model.Newsletter == "True") },
+					new SelectListItem { Text = "No", Value = "False", Selected = (Model.Newsletter == "False") },
+				}, new { @class = "form-control" })
+				</div>
+				<br>
+				<button id="btnEditPersonalInfo" class="btn btn-primary btn-block">Actualizar Información Personal</button>
 			</div>
 		</div>
 	</div>
@@ -62,27 +106,5 @@
 	</div>
 	<div class="col-sm-3"></div>
 </div>
-<script>
-	$("#Logo").change(function() {
-		document.getElementById("logoPreview").className = $(this).val();
-	});
-
-	$("#btnChangeLogo").click(function() {
-		$("#logoBody .alert").remove();
-		var token = document.getElementsByName("__RequestVerificationToken")[0].value;
-
-		$.post("/Account/EditLogo", {
-			name: $("#Logo").val(),
-			__RequestVerificationToken: token
-		}, function(response) {
-			if (response.Success) {
-				document.getElementById("profileLogo").className = response.Value;
-				var html = App.Util.renderAlert(response.Message, "alert-info", true);
-			} else {
-				var html = App.Util.renderAlert("<b>Error</b> - " + response.Message, "alert-danger", true);
-			}
-
-			$("#logoBody").prepend(html);
-		});
-	});
-</script>
+<script>var birthday = "@(Model.Birthday?.ToString("yyyy-MM-dd"))";</script>
+@Scripts.Render("~/bundles/profile")

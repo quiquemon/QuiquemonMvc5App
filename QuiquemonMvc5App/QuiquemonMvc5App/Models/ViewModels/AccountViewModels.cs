@@ -59,7 +59,7 @@ namespace QuiquemonMvc5App.Models.ViewModels.Account
 		public string Password { get; set; }
 	}
 
-	public class UpdateInfoViewModel : BasePersonalInfo
+	public class ProfileViewModel : BasePersonalInfo
 	{
 		[Display(Name = "Seleccione un logo:")]
 		public string Logo { get; set; }

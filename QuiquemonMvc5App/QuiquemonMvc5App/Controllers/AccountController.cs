@@ -45,7 +45,7 @@ namespace QuiquemonMvc5App.Controllers
 		{
 			var user = Session["User"] as User;
 			ViewBag.User = user;
-			return View(new UpdateInfoViewModel {
+			return View(new ProfileViewModel {
 				Name       = user.Name,
 				Lastname   = user.Lastname,
 				Birthday   = user.Birthday,
@@ -122,6 +122,13 @@ namespace QuiquemonMvc5App.Controllers
 			Session["User"] = db.Users.Find(user.ID);
 
 			return Json(new SuccessMessageWithValue<string>("Su logo se ha actualizado con éxito.", logo.Name));
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public JsonResult EditPersonalInfo()
+		{
+			return Json(new SuccessMessage("Test action."));
 		}
 	}
 }

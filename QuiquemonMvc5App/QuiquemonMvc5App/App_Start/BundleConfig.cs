@@ -19,6 +19,9 @@ namespace QuiquemonMvc5App
 			bundles.Add(new ScriptBundle("~/bundles/app").Include(
 				"~/Scripts/app.js"
 			));
+			bundles.Add(new ScriptBundle("~/bundles/profile").Include(
+				"~/Scripts/profile.js"
+			));
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 				"~/Content/bootstrap.min.css",
 				"~/Content/bootstrap-theme.min.css",
