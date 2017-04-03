@@ -91,7 +91,7 @@ namespace QuiquemonMvc5App.Controllers
 		{
 			if (ModelState.IsValid) {
 				if (db.Users.Any(u => u.Email == model.Email)) {
-					var user = db.Users.Where(u => u.Email == model.Email).Single();
+					var user = db.Users.Include(u => u.Logo).Single(u => u.Email == model.Email);
 
 					if (BCrypt.Net.BCrypt.Verify(model.Password, user.Password)) {
 						Session["User"] = user;
@@ -115,13 +115,12 @@ namespace QuiquemonMvc5App.Controllers
 			}
 
 			var user = Session["User"] as User;
-			var logo = db.Logos.Find(user.Logo.ID);
-			logo.Name = name;
-			db.Entry(logo).State = EntityState.Modified;
+			user.Logo.Name = name;
+			db.Entry(user.Logo).State = EntityState.Modified;
 			db.SaveChanges();
-			Session["User"] = db.Users.Find(user.ID);
+			Session["User"] = db.Users.Include(u => u.Logo).Single(u => u.ID == user.ID);
 
-			return Json(new SuccessMessageWithValue<string>("Su logo se ha actualizado con éxito.", logo.Name));
+			return Json(new SuccessMessageWithValue<string>("Su logo se ha actualizado con éxito.", name));
 		}
 
 		[HttpPost]
@@ -129,6 +128,14 @@ namespace QuiquemonMvc5App.Controllers
 		public JsonResult EditPersonalInfo()
 		{
 			return Json(new SuccessMessage("Test action."));
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+				db.Dispose();
+
+			base.Dispose(disposing);
 		}
 	}
 }

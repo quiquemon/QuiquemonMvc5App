@@ -32,7 +32,7 @@ $("#btnChangeLogo").click(function() {
 });
 
 $("#btnEditPersonalInfo").click(function() {
-	$("#personalInfoBody").remove();
+	$("#personalInfoBody .alert").remove();
 	var token = document.getElementsByName("__RequestVerificationToken")[0].value;
 		
 	BootstrapDialog.show({
