@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using System.Data.Entity;
+using System.Collections.Generic;
 using QuiquemonMvc5App.Models;
 using QuiquemonMvc5App.Models.ViewModels.Account;
 using QuiquemonMvc5App.Models.DAL;
@@ -125,9 +126,35 @@ namespace QuiquemonMvc5App.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public JsonResult EditPersonalInfo()
+		public JsonResult EditPersonalInfo([Bind(Include = "Name,Lastname,Birthday,Email,Newsletter")] BasePersonalInfo model)
 		{
-			return Json(new SuccessMessage("Test action."));
+			if (ModelState.IsValid) {
+				var user = Session["User"] as User;
+
+				if (!db.Users.Any(u => u.Email == model.Email && u.ID != user.ID)) {
+					user.Name = model.Name;
+					user.Lastname = model.Lastname;
+					user.Birthday = (DateTime)model.Birthday;
+					user.Email = model.Email;
+					user.Newsletter = Convert.ToBoolean(model.Newsletter);
+					db.Entry(user).State = EntityState.Modified;
+					db.SaveChanges();
+					Session["User"] = db.Users.Include(u => u.Logo).Single(u => u.ID == user.ID);
+
+					return Json(
+						new SuccessMessageWithValue<string>("Sus datos se han actualizado con éxito.", user.GetFullName())
+					);
+				} else {
+					ModelState.AddModelError("Email", "Ese correo electrónico ya fue utilizado. Por favor, elija otro.");
+				}
+			}
+
+			var errors = ModelState.ToDictionary(
+				pair => pair.Key,
+				pair => pair.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+			);
+
+			return Json(new ErrorMessageWithValue<Dictionary<string, string[]>>("", errors));
 		}
 
 		protected override void Dispose(bool disposing)

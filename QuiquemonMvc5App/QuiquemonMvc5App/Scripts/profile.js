@@ -1,4 +1,17 @@
-﻿$(".date").datetimepicker({
+﻿function renderErrors(errors) {
+	for (var e in errors) {
+		if (errors[e].length > 0) {
+			var html = "<p class='text-danger'>" + errors[e][0] + "</p>";
+
+			if (e !== "Newsletter")
+				$("#" + e).parent().parent().addClass("has-error").append(html);
+			else
+				$("#" + e).parent().addClass("has-error").append(html);
+		}
+	}
+}
+
+$(".date").datetimepicker({
 	locale: "es",
 	format: "YYYY-MM-DD",
 	maxDate: new Date(),
@@ -22,7 +35,7 @@ $("#btnChangeLogo").click(function() {
 	}, function(response) {
 		if (response.Success) {
 			document.getElementById("profileLogo").className = response.Value;
-			var html = App.Util.renderAlert(response.Message, "alert-info", true);
+			var html = App.Util.renderAlert(response.Message, "alert-success", true);
 		} else {
 			var html = App.Util.renderAlert("<b>Error</b> - " + response.Message, "alert-danger", true);
 		}
@@ -33,11 +46,24 @@ $("#btnChangeLogo").click(function() {
 
 $("#btnEditPersonalInfo").click(function() {
 	$("#personalInfoBody .alert").remove();
+	$("div").removeClass("has-error");
+	$(".text-danger").remove();
 	var token = document.getElementsByName("__RequestVerificationToken")[0].value;
 		
-	BootstrapDialog.show({
-		title: "Mensaje de prueba",
-		message: "<b>Token:</b> " + token,
-		size: BootstrapDialog.SIZE_WIDE
+	$.post("/Account/EditPersonalInfo", {
+		Name: $("#Name").val(),
+		Lastname: $("#Lastname").val(),
+		Birthday: $("#Birthday").val(),
+		Email: $("#Email").val(),
+		Newsletter: $("#Newsletter").val(),
+		__RequestVerificationToken: token
+	}, function(response) {
+		if (response.Success) {
+			var html = App.Util.renderAlert(response.Message, "alert-success", true);
+			$("#personalInfoBody").prepend(html);
+			$("#profileName").text("Mi Perfil: " + response.Value);
+		} else {
+			renderErrors(response.Value);
+		}
 	});
 });

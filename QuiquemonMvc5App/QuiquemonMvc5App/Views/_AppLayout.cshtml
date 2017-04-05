@@ -52,7 +52,7 @@
 							<li>
 								<a href="/Account/Profile">
 									<span id="profileLogo" class="@((Session["User"] as User).Logo.Name)"></span>
-									Mi Perfil: @((Session["User"] as User).GetFullName())
+									<span id="profileName">Mi Perfil: @((Session["User"] as User).GetFullName())</span>
 								</a>
 							</li>
 							<li>
