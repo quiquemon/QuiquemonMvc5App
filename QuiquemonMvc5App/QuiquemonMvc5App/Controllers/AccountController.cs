@@ -150,7 +150,7 @@ namespace QuiquemonMvc5App.Controllers
 				}
 			}
 
-			return Json(new ErrorMessageWithValue<Dictionary<string, string[]>>("", GetModelErrors(ModelState)));
+			return Json(new ErrorMessageWithValue<Dictionary<string, string>>("", GetModelErrors(ModelState)));
 		}
 
 		[HttpPost]
@@ -171,14 +171,14 @@ namespace QuiquemonMvc5App.Controllers
 				}
 			}
 
-			return Json(new ErrorMessageWithValue<Dictionary<string, string[]>>("", GetModelErrors(ModelState)));
+			return Json(new ErrorMessageWithValue<Dictionary<string, string>>("", GetModelErrors(ModelState)));
 		}
 
-		private Dictionary<string, string[]> GetModelErrors(ModelStateDictionary dict)
+		private Dictionary<string, string> GetModelErrors(ModelStateDictionary dict)
 		{
 			return dict.ToDictionary(
 				pair => pair.Key,
-				pair => pair.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+				pair => pair.Value.Errors.FirstOrDefault()?.ErrorMessage
 			);
 		}
 

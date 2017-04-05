@@ -1,8 +1,8 @@
 ﻿function renderErrors(errors) {
 	for (var e in errors) {
-		if (errors[e].length > 0) {
-			var html = "<p class='text-danger'>" + errors[e][0] + "</p>";
-
+		if (errors[e] != null) {
+			var html = "<p class='text-danger'>" + errors[e] + "</p>";
+			
 			if (e !== "Newsletter")
 				$("#" + e).parent().parent().addClass("has-error").append(html);
 			else
