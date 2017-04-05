@@ -64,8 +64,8 @@ namespace QuiquemonMvc5App.Controllers
 			if (ModelState.IsValid) {
 				if (!db.Users.Any(u => u.Email == model.Email)) {
 					var user = new User {
-						Name       = model.Name,
-						Lastname   = model.Lastname,
+						Name       = model.Name.Trim(),
+						Lastname   = model.Lastname.Trim(),
 						Birthday   = (DateTime)model.Birthday,
 						Email      = model.Email,
 						Password   = BCrypt.Net.BCrypt.HashPassword(model.Password, 14),
@@ -116,7 +116,7 @@ namespace QuiquemonMvc5App.Controllers
 			}
 
 			var user = Session["User"] as User;
-			user.Logo.Name = name;
+			user.Logo.Name = name.Trim();
 			db.Entry(user.Logo).State = EntityState.Modified;
 			db.SaveChanges();
 			Session["User"] = db.Users.Include(u => u.Logo).Single(u => u.ID == user.ID);
@@ -132,8 +132,8 @@ namespace QuiquemonMvc5App.Controllers
 				var user = Session["User"] as User;
 
 				if (!db.Users.Any(u => u.Email == model.Email && u.ID != user.ID)) {
-					user.Name = model.Name;
-					user.Lastname = model.Lastname;
+					user.Name = model.Name.Trim();
+					user.Lastname = model.Lastname.Trim();
 					user.Birthday = (DateTime)model.Birthday;
 					user.Email = model.Email;
 					user.Newsletter = Convert.ToBoolean(model.Newsletter);
