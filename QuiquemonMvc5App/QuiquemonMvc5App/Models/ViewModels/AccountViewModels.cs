@@ -105,4 +105,17 @@ namespace QuiquemonMvc5App.Models.ViewModels.Account
 			}
 		}
 	}
+
+	public class EditPasswordViewModel
+	{
+		[Required(ErrorMessage = "Su vieja contraseña es obligatoria.")]
+		[StringLength(72, MinimumLength = 10, ErrorMessage = "La vieja contraseña debe tener entre 10 y 72 caracteres.")]
+		[Display(Name = "Escriba su vieja contraseña:")]
+		public string OldPassword { get; set; }
+
+		[Required(ErrorMessage = "Su nueva contraseña es obligatoria.")]
+		[StringLength(72, MinimumLength = 10, ErrorMessage = "La nueva contraseña debe tener entre 10 y 72 caracteres.")]
+		[Display(Name = "Escriba su nueva contraseña:")]
+		public string NewPassword { get; set; }
+	}
 }

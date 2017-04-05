@@ -99,8 +99,27 @@
 			<div class="panel-heading">
 				<b>Tu Contraseña</b>
 			</div>
-			<div class="panel-body">
-
+			<div id="passwordBody" class="panel-body">
+				<div class="form-group">
+					<label>Escriba su vieja contraseña:</label>
+					<div class="input-group">
+						<input type="password" id="OldPassword" class="form-control" />
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-asterisk"></span>
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label>Escriba su nueva contraseña:</label>
+					<div class="input-group">
+						<input type="password" id="NewPassword" class="form-control" />
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-plus-sign"></span>
+						</span>
+					</div>
+				</div>
+				<br>
+				<button id="btnEditPassword" class="btn btn-warning btn-block">Actualizar Contraseña</button>
 			</div>
 		</div>
 	</div>

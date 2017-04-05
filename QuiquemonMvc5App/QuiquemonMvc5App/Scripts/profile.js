@@ -45,10 +45,13 @@ $("#btnChangeLogo").click(function() {
 });
 
 $("#btnEditPersonalInfo").click(function() {
-	$("#personalInfoBody .alert").remove();
-	$("div").removeClass("has-error");
-	$(".text-danger").remove();
+	var button = $(this);
 	var token = document.getElementsByName("__RequestVerificationToken")[0].value;
+
+	$("#personalInfoBody .alert").remove();
+	$("#personalInfoBody div").removeClass("has-error");
+	$("#personalInfoBody .text-danger").remove();
+	button.prop("disabled", true);
 		
 	$.post("/Account/EditPersonalInfo", {
 		Name: $("#Name").val(),
@@ -58,10 +61,37 @@ $("#btnEditPersonalInfo").click(function() {
 		Newsletter: $("#Newsletter").val(),
 		__RequestVerificationToken: token
 	}, function(response) {
+		button.prop("disabled", false);
+
 		if (response.Success) {
 			var html = App.Util.renderAlert(response.Message, "alert-success", true);
 			$("#personalInfoBody").prepend(html);
 			$("#profileName").text("Mi Perfil: " + response.Value);
+		} else {
+			renderErrors(response.Value);
+		}
+	});
+});
+
+$("#btnEditPassword").click(function() {
+	var button = $(this);
+	var token = document.getElementsByName("__RequestVerificationToken")[0].value;
+
+	$("#passwordBody .alert").remove();
+	$("#passwordBody div").removeClass("has-error");
+	$("#passwordBody .text-danger").remove();
+	button.prop("disabled", true);
+
+	$.post("/Account/EditPassword", {
+		OldPassword: $("#OldPassword").val(),
+		NewPassword: $("#NewPassword").val(),
+		__RequestVerificationToken: token
+	}, function(response) {
+		button.prop("disabled", false);
+
+		if (response.Success) {
+			var html = App.Util.renderAlert(response.Message, "alert-success", true);
+			$("#passwordBody").prepend(html);
 		} else {
 			renderErrors(response.Value);
 		}

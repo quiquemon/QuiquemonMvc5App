@@ -100,7 +100,8 @@ namespace QuiquemonMvc5App.Controllers
 					}
 				}
 
-				ModelState.AddModelError("Password", "El correo electrónico o la contraseña son erróneos.");
+				ModelState.AddModelError("Email", "El correo electrónico o la contraseña son erróneos.");
+				ModelState.AddModelError("Password", " ");
 			}
 
 			return View(model);
@@ -149,12 +150,36 @@ namespace QuiquemonMvc5App.Controllers
 				}
 			}
 
-			var errors = ModelState.ToDictionary(
+			return Json(new ErrorMessageWithValue<Dictionary<string, string[]>>("", GetModelErrors(ModelState)));
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public JsonResult EditPassword([Bind(Include = "OldPassword,NewPassword")] EditPasswordViewModel model)
+		{
+			if (ModelState.IsValid) {
+				var user = Session["User"] as User;
+
+				if (BCrypt.Net.BCrypt.Verify(model.OldPassword, user.Password)) {
+					user.Password = BCrypt.Net.BCrypt.HashPassword(model.NewPassword, 14);
+					db.Entry(user).State = EntityState.Modified;
+					db.SaveChanges();
+					Session["User"] = db.Users.Include(u => u.Logo).Single(u => u.ID == user.ID);
+					return Json(new SuccessMessage("Su contraseña se ha actualizado con éxito."));
+				} else {
+					ModelState.AddModelError("OldPassword", "Su vieja contraseña no concuerda. Escríbala de nuevo.");
+				}
+			}
+
+			return Json(new ErrorMessageWithValue<Dictionary<string, string[]>>("", GetModelErrors(ModelState)));
+		}
+
+		private Dictionary<string, string[]> GetModelErrors(ModelStateDictionary dict)
+		{
+			return dict.ToDictionary(
 				pair => pair.Key,
 				pair => pair.Value.Errors.Select(e => e.ErrorMessage).ToArray()
 			);
-
-			return Json(new ErrorMessageWithValue<Dictionary<string, string[]>>("", errors));
 		}
 
 		protected override void Dispose(bool disposing)
